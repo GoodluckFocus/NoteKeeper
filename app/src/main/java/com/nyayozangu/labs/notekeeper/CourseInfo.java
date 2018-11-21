@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CourseInfo {
+public final class CourseInfo implements Parcelable {
     private final String mCourseId;
     private final String mTitle;
     private final List<ModuleInfo> mModules;
@@ -16,6 +16,13 @@ public final class CourseInfo {
         mCourseId = courseId;
         mTitle = title;
         mModules = modules;
+    }
+
+    private CourseInfo(Parcel source){
+        mCourseId=source.readString();
+        mTitle=source.readString();
+        mModules=new ArrayList<>();
+        source.readTypedList(mModules,ModuleInfo.CREATOR);
     }
 
     public String getCourseId() {
@@ -73,4 +80,13 @@ public final class CourseInfo {
         return mCourseId.hashCode();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }
